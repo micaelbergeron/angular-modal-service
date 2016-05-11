@@ -113,15 +113,15 @@
             //  If we have provided any inputs, pass them to the controller.
             if (options.inputs) angular.extend(inputs, options.inputs);
 
+            //  Create the controller, explicitly specifying the scope to use.
+            var controllerObjBefore = modalScope[options.controllerAs];
+            var modalController = $controller(options.controller, inputs, false, options.controllerAs);
+
             //  Compile then link the template element, building the actual element.
             //  Set the $element on the inputs so that it can be injected if required.
             var linkFn = $compile(template);
             var modalElement = linkFn(modalScope);
-            inputs.$element = modalElement;
-
-            //  Create the controller, explicitly specifying the scope to use.
-            var controllerObjBefore = modalScope[options.controllerAs];
-            var modalController = $controller(options.controller, inputs, false, options.controllerAs);
+            modalScope.$element = modalElement;
 
             if (options.controllerAs && controllerObjBefore) {
               angular.extend(modalController, controllerObjBefore);
@@ -140,14 +140,13 @@
             var modal = {
               controller: modalController,
               scope: modalScope,
-              element: modalElement,
+              element: modalElement, // backward compatibility
               close: closeDeferred.promise,
               closed: closedDeferred.promise
             };
 
             //  ...which is passed to the caller via the promise.
             deferred.resolve(modal);
-
           })
           .then(null, function(error) { // 'catch' doesn't work in IE8.
             deferred.reject(error);
