@@ -20,8 +20,8 @@ describe('controller', function() {
         return vm.ExampleForm.$valid;
       }
     })
-    .controller('ElementController', function($scope, $element) {
-      $scope.getElement = function() { return $element; };
+    .controller('ElementController', function($scope) {
+      $scope.getElement = function() { return $scope.$element; };
     });
 
   beforeEach(function() {

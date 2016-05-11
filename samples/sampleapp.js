@@ -13,7 +13,7 @@ app.controller('SampleController', ['$scope', 'ModalService', function($scope, M
       templateUrl: "yesno/yesno.html",
       controller: "YesNoController"
     }).then(function(modal) {
-      modal.element.modal();
+      modal.element.modal(); // this should not be
       modal.close.then(function(result) {
         $scope.yesNoResult = result ? "You said Yes" : "You said No";
       });
@@ -22,15 +22,14 @@ app.controller('SampleController', ['$scope', 'ModalService', function($scope, M
   };
 
   $scope.showComplex = function() {
-
     ModalService.showModal({
       templateUrl: "complex/complex.html",
-      controller: "ComplexController",
+      controller: "ComplexController as ctrl",
       inputs: {
         title: "A More Complex Example"
       }
     }).then(function(modal) {
-      modal.element.modal();
+      modal.scope.$element.modal();
       modal.close.then(function(result) {
         $scope.complexResult  = "Name: " + result.name + ", age: " + result.age;
       });

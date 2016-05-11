@@ -1,8 +1,8 @@
 var app = angular.module('sampleapp');
 
 app.controller('ComplexController', [
-  '$scope', '$element', 'title', 'close', 
-  function($scope, $element, title, close) {
+  '$scope', 'title', 'close', 
+  function($scope, title, close) {
 
   $scope.name = null;
   $scope.age = null;
@@ -22,7 +22,7 @@ app.controller('ComplexController', [
   $scope.cancel = function() {
 
     //  Manually hide the modal.
-    $element.modal('hide');
+    $scope.$element.modal('hide');
     
     //  Now call close, returning control to the caller.
     close({
